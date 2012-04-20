@@ -33,7 +33,7 @@ $HAPIKey = 'demo';
     //List blogs for a specific portal (API key)
     $params = array('max'=>1);
     print_r($blogs->get_blogs($params, $content_type));
-
+/*
     //Get info about a specific blog
     $params = array();
     print_r($blogs->get_blog($params, '0d61e4ca-e395-4c1c-8766-afaa48bf68db', $content_type));
@@ -191,5 +191,5 @@ $HAPIKey = 'demo';
     
     //Delete specific keyword
     echo $keywords->delete_keyword($addedGuid);
-
+*/
 ?>

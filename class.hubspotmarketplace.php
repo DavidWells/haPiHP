@@ -1,6 +1,6 @@
 <?php
 
-class HubSpotMarketplace{  
+class HubSpotMarketplace {  
 
     protected $appSecret;
     protected $marketplaceSignature;
@@ -15,7 +15,7 @@ class HubSpotMarketplace{
     protected $marketplaceAppCallbackURL;
     protected $marketplaceAppPageURL;
     protected $marketplaceAppCanvasURL;
-    protected $marketplaceAccessToken;
+    public static $marketplaceAccessToken;
     protected $marketplaceAccessExpires;
     protected $marketplaceRefreshToken;
 

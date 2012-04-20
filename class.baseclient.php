@@ -16,7 +16,10 @@
 * language governing permissions and limitations under the 
 * License.
 */
-class BaseClient {
+
+require_once('class.hubspotmarketplace.php');
+
+class BaseClient extends HubSpotMarketplace {
     // BaseClient class to be extended by specific hapi clients
 
     // Declare variables
@@ -29,6 +32,8 @@ class BaseClient {
     protected $PROD_DOMAIN = 'https://api.hubapi.com';
     protected $QA_DOMAIN = 'https://hubapiqa.com';
     protected $userAgent;	// new
+    //protected $access_token = $marketplaceAccessToken;
+    protected $access_token;
 
     /**
     * Constructor.
@@ -38,6 +43,7 @@ class BaseClient {
     function __construct($HAPIKey,$userAgent="haPiHP default UserAgent") {	// new
         $this->HAPIKey = $HAPIKey;
 		$this->userAgent = $userAgent;	// new
+        $this->access_token = HubSpotMarketplace::$marketplaceAccessToken;
     }
 
     /**
@@ -107,12 +113,26 @@ class BaseClient {
     **/
     protected function get_request_url($endpoint,$params) {
         $paramstring = $this->array_to_params($params);
-        return $this->get_domain() . $this->PATH_DIV . 
+        if ($this->access_token) {
+            return $this->get_domain() . $this->PATH_DIV . 
                $this->get_api() . $this->PATH_DIV . 
                $this->get_api_version() . $this->PATH_DIV . 
                $endpoint . 
-               $this->KEY_PARAM . $this->HAPIKey .  
+               $this->KEY_PARAM . $this->access_token .  
+               $paramstring;    
+        }
+        else if ($this->HAPIkey) {
+            return $this->get_domain() . $this->PATH_DIV . 
+               $this->get_api() . $this->PATH_DIV . 
+               $this->get_api_version() . $this->PATH_DIV . 
+               $endpoint . 
+               $this->KEY_PARAM . $this->HAPIkey .  
                $paramstring;
+        }
+        else {
+            throw new Exception("No HAPIkey or access token set.")
+        }
+        
     }
 
     /**
