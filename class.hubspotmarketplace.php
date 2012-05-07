@@ -15,7 +15,7 @@ class HubSpotMarketplace {
     protected $marketplaceAppCallbackURL;
     protected $marketplaceAppPageURL;
     protected $marketplaceAppCanvasURL;
-    public static $marketplaceAccessToken;
+    protected $marketplaceAccessToken;
     protected $marketplaceAccessExpires;
     protected $marketplaceRefreshToken;
 
@@ -40,6 +40,7 @@ class HubSpotMarketplace {
         $this->marketplaceAppPageURL = $request['hubspot_marketplace_app_pageUrl'];
         $this->marketplaceAppCanvasURL = $request['hubspot_marketplace_canvasUrl'];
         $this->marketplaceAccessToken = $request['hubspot_marketplace_accessToken'];
+        //$this->marketplaceAccessToken = 'demooooo-oooo-oooo-oooo-oooooooooooo';
         $this->marketplaceAccessExpires = $request['hubspot_marketplace_accessExpires'];
         $this->marketplaceRefreshToken = $request['hubspot_marketplace_refreshToken'];
     }

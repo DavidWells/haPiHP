@@ -17,9 +17,7 @@
 * License.
 */
 
-require_once('class.hubspotmarketplace.php');
-
-class BaseClient extends HubSpotMarketplace {
+class BaseClient {
     // BaseClient class to be extended by specific hapi clients
 
     // Declare variables
@@ -29,21 +27,22 @@ class BaseClient extends HubSpotMarketplace {
     protected $isTest = false;
     protected $PATH_DIV = '/';
     protected $KEY_PARAM = '?hapikey=';
+    protected $OAUTH_PARAM = '?access_token=';
     protected $PROD_DOMAIN = 'https://api.hubapi.com';
     protected $QA_DOMAIN = 'https://hubapiqa.com';
-    protected $userAgent;	// new
-    //protected $access_token = $marketplaceAccessToken;
     protected $access_token;
+    protected $userAgent;	// new
+    //protected $access_token;
 
     /**
     * Constructor.
     *
     * @param $HAPIKey: String value of HubSpot API Key for requests
     **/
-    function __construct($HAPIKey,$userAgent="haPiHP default UserAgent") {	// new
+    function __construct($access_token=NULL, $HAPIKey=NULL, $userAgent="haPiHP default UserAgent") {	// new
         $this->HAPIKey = $HAPIKey;
 		$this->userAgent = $userAgent;	// new
-        $this->access_token = HubSpotMarketplace::$marketplaceAccessToken;
+        $this->access_token = $access_token;
     }
 
     /**
@@ -114,11 +113,17 @@ class BaseClient extends HubSpotMarketplace {
     protected function get_request_url($endpoint,$params) {
         $paramstring = $this->array_to_params($params);
         if ($this->access_token) {
+            echo $this->get_domain() . $this->PATH_DIV . 
+               $this->get_api() . $this->PATH_DIV . 
+               $this->get_api_version() . $this->PATH_DIV . 
+               $endpoint . 
+               $this->OAUTH_PARAM . $this->access_token .  
+               $paramstring;
             return $this->get_domain() . $this->PATH_DIV . 
                $this->get_api() . $this->PATH_DIV . 
                $this->get_api_version() . $this->PATH_DIV . 
                $endpoint . 
-               $this->KEY_PARAM . $this->access_token .  
+               $this->OAUTH_PARAM . $this->access_token .  
                $paramstring;    
         }
         else if ($this->HAPIkey) {
@@ -130,9 +135,8 @@ class BaseClient extends HubSpotMarketplace {
                $paramstring;
         }
         else {
-            throw new Exception("No HAPIkey or access token set.")
+            throw new Exception("No HAPIkey or access token set.");
         }
-        
     }
 
     /**

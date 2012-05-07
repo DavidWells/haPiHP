@@ -23,11 +23,14 @@ require_once 'class.leadnurturing.php';
 require_once 'class.prospects.php';
 require_once 'class.keywords.php';
 require_once 'class.blog.php';
+require_once 'class.hubspotmarketplace.php';
 
-$HAPIKey = 'demo';
+//$HAPIKey = 'demo';
+$mkt = new HubSpotMarketplace('test', 'qweqwe');
+$access_token = $mkt->marketplaceAccessToken;
 
 //Exercise Blog API
-    $blogs = new Blog($HAPIKey);
+    $blogs = new Blog($access_token);
     $content_type = 'json';
 
     //List blogs for a specific portal (API key)
